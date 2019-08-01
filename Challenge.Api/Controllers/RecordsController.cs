@@ -38,15 +38,17 @@ namespace Challenge.Api.Controllers
         [Route("save")]
         public IActionResult PostRecords([FromBody]List<RecordObjectModel> jsonReceived)
         {
-            return Ok();
+            if (ModelState.IsValid)
+            {
+                //to do
+                return Ok();
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
-
-        [HttpPost]
-        public IActionResult Rock()
-        {
-            return Ok();
-        }
     }
 
 }
