@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using CsvHelper;
 using System.Linq;
+using Challenge.Api.Mapping;
 
 namespace Challenge.Api.Controllers
 {
@@ -41,17 +42,28 @@ namespace Challenge.Api.Controllers
         [Route("main")]
         public ActionResult<IEnumerable<RecordObjectModel>> MainRecords()
         {
-            List<RecordObjectModel> records = new List<RecordObjectModel>();
             try
             {
-                using (TextReader reader = new StreamReader("dataArchive.csv"))
+                //var reader = System.IO.File.ReadAllText("dataArchive.csv");
+                //Console.WriteLine(reader);
+
+                List<RecordObjectModel> recordList = new List<RecordObjectModel>();
+
+                var csvReader = new CsvReader(new StreamReader("dataArchive.csv"));
+                var records = csvReader.GetRecords<RecordObjectModel>();
+
+                foreach (var item in records)
                 {
-                    CsvReader csvReader = new CsvReader(reader);
-                    csvReader.Read();
-                    csvReader.Configuration.HeaderValidated = false;
-                    records = csvReader.GetRecords<RecordObjectModel>().ToList();
+                    RecordObjectModel recordObject = new RecordObjectModel();
+
+                    recordObject.Id = item.Id;
+                    recordObject.Name = item.Name;
+                    recordObject.Status = item.Status;
+
+                    recordList.Add(recordObject);
                 }
-                return Ok(records);
+
+                return Ok();
             }
             catch (Exception excep)
             {
