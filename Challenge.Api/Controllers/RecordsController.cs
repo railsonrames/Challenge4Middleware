@@ -1,9 +1,9 @@
 ﻿using Challenge.Api.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using Newtonsoft.Json;
 using System;
 using System.IO;
+using CsvHelper;
 
 namespace Challenge.Api.Controllers
 {
@@ -40,22 +40,20 @@ namespace Challenge.Api.Controllers
         [Route("save")]
         public IActionResult PostRecords([FromBody]List<RecordObjectModel> jsonReceived)
         {
-            string filePath = "data.csv";
             if (ModelState.IsValid)
             {
                 try
                 {
-                    using (StreamWriter file = new StreamWriter(filePath, true))
+                    using (TextWriter writer = new StreamWriter("test.csv", false, System.Text.Encoding.UTF8))
                     {
-                        foreach (var record in jsonReceived)
-                        {
-                            file.WriteLine($"{record.Id},{record.Name},{record.Status}");
-                        }
+                        var csv = new CsvWriter(writer);
+                        csv.WriteRecords(jsonReceived);
+                        writer.Close();
                     }
                 }
-                catch (Exception ex)
+                catch (Exception excep)
                 {
-                    throw new ApplicationException("Não foi possível gravar o objeto em arquivo, causado por: ", ex);
+                    throw new ApplicationException($"Ocorreu um erro ao gravar os dados no arquivo CSV, causados por: {excep}");
                 }
                 return Ok();
             }
