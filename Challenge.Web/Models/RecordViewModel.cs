@@ -1,6 +1,6 @@
-﻿namespace Challenge.Api.Models
+﻿namespace Challenge.Web.Models
 {
-    public class RecordObjectModel
+    public class RecordViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

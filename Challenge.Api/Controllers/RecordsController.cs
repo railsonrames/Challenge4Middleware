@@ -17,27 +17,34 @@ namespace Challenge.Api.Controllers
         [Route("list")]
         public ActionResult<IEnumerable<RecordObjectModel>> MainRecords()
         {
-            int counter = 0;
-            List<RecordObjectModel> recordObjectsList = new List<RecordObjectModel>();
-            try
+            if (System.IO.File.Exists("dataArchive.csv"))
             {
-                using (StreamReader reader = new StreamReader("dataArchive.csv"))
+                int counter = 0;
+                List<RecordObjectModel> recordObjectsList = new List<RecordObjectModel>();
+                try
                 {
-                    while (!reader.EndOfStream)
+                    using (StreamReader reader = new StreamReader("dataArchive.csv"))
                     {
-                        string[] line = reader.ReadLine().Split('\t');
-                        if (counter++ > 0)
+                        while (!reader.EndOfStream)
                         {
-                            var record = new RecordObjectModel { Id = int.Parse(line[0]), Name = line[1], Status = bool.Parse(line[2]) };
-                            recordObjectsList.Add(record);
+                            string[] line = reader.ReadLine().Split('\t');
+                            if (counter++ > 0)
+                            {
+                                var record = new RecordObjectModel { Id = int.Parse(line[0]), Name = line[1], Status = bool.Parse(line[2]) };
+                                recordObjectsList.Add(record);
+                            }
                         }
                     }
+                    return Ok(recordObjectsList);
                 }
-                return Ok(recordObjectsList);
+                catch (Exception excep)
+                {
+                    throw new ApplicationException($"Ocorreu um erro ao ler os dados no arquivo CSV, causados por: {excep}");
+                }
             }
-            catch (Exception excep)
+            else
             {
-                throw new ApplicationException($"Ocorreu um erro ao ler os dados no arquivo CSV, causados por: {excep}");
+                return BadRequest("Não existe arquivo CSV criado, verifique se o POST JSON já foi realizado.");
             }
         }
 

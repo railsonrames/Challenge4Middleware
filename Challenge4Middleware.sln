@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29123.89
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenge.Api", "Challenge.Api\Challenge.Api.csproj", "{07D7BA69-4AF4-40B2-B7C9-F4EFF36C64CF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Challenge.Api", "Challenge.Api\Challenge.Api.csproj", "{07D7BA69-4AF4-40B2-B7C9-F4EFF36C64CF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Challenge.Web", "Challenge.Web\Challenge.Web.csproj", "{5AF5B567-677D-4A9D-9FE8-A97830BD1965}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{07D7BA69-4AF4-40B2-B7C9-F4EFF36C64CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07D7BA69-4AF4-40B2-B7C9-F4EFF36C64CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07D7BA69-4AF4-40B2-B7C9-F4EFF36C64CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5AF5B567-677D-4A9D-9FE8-A97830BD1965}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5AF5B567-677D-4A9D-9FE8-A97830BD1965}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5AF5B567-677D-4A9D-9FE8-A97830BD1965}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5AF5B567-677D-4A9D-9FE8-A97830BD1965}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
