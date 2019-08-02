@@ -12,11 +12,6 @@ namespace Challenge.Web.Controllers
     {
         public IActionResult Index()
         {
-            //[Get("/api-gestao-dup/v1/desapropriacao/{idDup}/dupgestao")]
-            //Task<HttpResponseMessage> GetDupGestaoByIdDup(int idDup);
-
-
-
             return View();
         }
 
