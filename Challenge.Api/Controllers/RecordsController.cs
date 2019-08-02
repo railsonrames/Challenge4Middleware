@@ -4,8 +4,6 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using CsvHelper;
-using System.Linq;
-using Challenge.Api.Mapping;
 
 namespace Challenge.Api.Controllers
 {
@@ -17,53 +15,25 @@ namespace Challenge.Api.Controllers
 
         [HttpGet]
         [Route("list")]
-        public ActionResult<IEnumerable<RecordObjectModel>> GetRecords()
-        {
-            return new List<RecordObjectModel> {
-                new RecordObjectModel{
-                    Id = 1,
-                    Name = "Railson Rames",
-                    Status = true
-                },
-                new RecordObjectModel{
-                    Id = 2,
-                    Name = "Rayanne de Brito Uchoa",
-                    Status = true
-                },
-                new RecordObjectModel{
-                    Id = 3,
-                    Name = "Rayanninha Uchoa Rames",
-                    Status = true
-                }
-            };
-        }
-
-        [HttpGet]
-        [Route("main")]
         public ActionResult<IEnumerable<RecordObjectModel>> MainRecords()
         {
+            int counter = 0;
+            List<RecordObjectModel> recordObjectsList = new List<RecordObjectModel>();
             try
             {
-                //var reader = System.IO.File.ReadAllText("dataArchive.csv");
-                //Console.WriteLine(reader);
-
-                List<RecordObjectModel> recordList = new List<RecordObjectModel>();
-
-                var csvReader = new CsvReader(new StreamReader("dataArchive.csv"));
-                var records = csvReader.GetRecords<RecordObjectModel>();
-
-                foreach (var item in records)
+                using (StreamReader reader = new StreamReader("dataArchive.csv"))
                 {
-                    RecordObjectModel recordObject = new RecordObjectModel();
-
-                    recordObject.Id = item.Id;
-                    recordObject.Name = item.Name;
-                    recordObject.Status = item.Status;
-
-                    recordList.Add(recordObject);
+                    while (!reader.EndOfStream)
+                    {
+                        string[] line = reader.ReadLine().Split('\t');
+                        if (counter++ > 0)
+                        {
+                            var record = new RecordObjectModel { Id = int.Parse(line[0]), Name = line[1], Status = bool.Parse(line[2]) };
+                            recordObjectsList.Add(record);
+                        }
+                    }
                 }
-
-                return Ok();
+                return Ok(recordObjectsList);
             }
             catch (Exception excep)
             {
