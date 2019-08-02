@@ -36,6 +36,27 @@ namespace Challenge.Api.Controllers
             };
         }
 
+        [HttpGet]
+        [Route("main")]
+        public ActionResult<IEnumerable<RecordObjectModel>> MainRecords()
+        {
+            IEnumerable<RecordObjectModel> records = null;
+            try
+            {
+                using (TextReader reader = new StreamReader("dataArchive.csv", System.Text.Encoding.UTF8))
+                {
+                    var csvReader = new CsvReader(reader);
+                    records = csvReader.GetRecords<RecordObjectModel>();
+                    reader.Close();
+                    return records;
+                }
+            }
+            catch (Exception excep)
+            {
+                throw new ApplicationException($"Ocorreu um erro ao ler os dados no arquivo CSV, causados por: {excep}");
+            }            
+        }
+
         [HttpPost]
         [Route("save")]
         public IActionResult PostRecords([FromBody]List<RecordObjectModel> jsonReceived)
@@ -44,10 +65,10 @@ namespace Challenge.Api.Controllers
             {
                 try
                 {
-                    using (TextWriter writer = new StreamWriter("test.csv", false, System.Text.Encoding.UTF8))
+                    using (TextWriter writer = new StreamWriter("dataArchive.csv", false, System.Text.Encoding.UTF8))
                     {
-                        var csv = new CsvWriter(writer);
-                        csv.WriteRecords(jsonReceived);
+                        var csvWriter = new CsvWriter(writer);
+                        csvWriter.WriteRecords(jsonReceived);
                         writer.Close();
                     }
                 }
