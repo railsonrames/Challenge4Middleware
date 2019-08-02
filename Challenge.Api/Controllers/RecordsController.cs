@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using CsvHelper;
+using System.Linq;
 
 namespace Challenge.Api.Controllers
 {
@@ -40,21 +41,22 @@ namespace Challenge.Api.Controllers
         [Route("main")]
         public ActionResult<IEnumerable<RecordObjectModel>> MainRecords()
         {
-            IEnumerable<RecordObjectModel> records = null;
+            List<RecordObjectModel> records = new List<RecordObjectModel>();
             try
             {
-                using (TextReader reader = new StreamReader("dataArchive.csv", System.Text.Encoding.UTF8))
+                using (TextReader reader = new StreamReader("dataArchive.csv"))
                 {
-                    var csvReader = new CsvReader(reader);
-                    records = csvReader.GetRecords<RecordObjectModel>();
-                    reader.Close();
-                    return records;
+                    CsvReader csvReader = new CsvReader(reader);
+                    csvReader.Read();
+                    csvReader.Configuration.HeaderValidated = false;
+                    records = csvReader.GetRecords<RecordObjectModel>().ToList();
                 }
+                return Ok(records);
             }
             catch (Exception excep)
             {
                 throw new ApplicationException($"Ocorreu um erro ao ler os dados no arquivo CSV, causados por: {excep}");
-            }            
+            }
         }
 
         [HttpPost]
