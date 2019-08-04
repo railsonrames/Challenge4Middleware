@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using CsvHelper;
+using System.Web.Http.Cors;
 
 namespace Challenge.Api.Controllers
 {
-
+    
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [Route("api/[controller]")]
     [ApiController]
     public class RecordsController : ControllerBase
