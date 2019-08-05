@@ -14,7 +14,6 @@ namespace Challenge.Api.Controllers
     public class RecordsController : ControllerBase
     {
 
-        [EnableCors]
         [HttpGet]
         [Route("list")]
         public ActionResult<IEnumerable<RecordObjectModel>> MainRecords()
