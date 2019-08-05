@@ -4,17 +4,17 @@ using System.Collections.Generic;
 using System;
 using System.IO;
 using CsvHelper;
-using System.Web.Http.Cors;
+using Microsoft.AspNetCore.Cors;
 
 namespace Challenge.Api.Controllers
 {
-    
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+
     [Route("api/[controller]")]
     [ApiController]
     public class RecordsController : ControllerBase
     {
 
+        [EnableCors]
         [HttpGet]
         [Route("list")]
         public ActionResult<IEnumerable<RecordObjectModel>> MainRecords()
